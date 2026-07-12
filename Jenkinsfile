@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'dimas-job' }
+    agent { label 'docker-server-dimas	' }
     
     tools {nodejs "NodeJS-18.16.0"}
 
