@@ -45,7 +45,7 @@ environment {
           sh ''' 
           docker tag ${NAMEAPPS} sayadimas/${NAMEAPPS}:${VERSION}
           docker push sayadimas/${NAMEAPPS}:${VERSION}
-          docker images prune -a -f
+          docker image prune -a -f
           '''
         }
       }
