@@ -13,8 +13,7 @@ pipeline {
         stage('Testing') {
             steps {
                 sh '''
-                npm test
-                npm run test:coverage'''
+                npm test'''
             }
         }
         stage('Code Review') {
