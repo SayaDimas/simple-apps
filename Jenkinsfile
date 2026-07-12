@@ -3,7 +3,7 @@ pipeline {
     
     tools {nodejs "NodeJS-18.16.0"}
 environment {
-    NAMEAPPS = 'Simple-apps-pipeline-apps
+    NAMEAPPS = 'Simple-apps-pipeline-apps'
     SONARHOST = 'http://172.23.11.114:9000'
     TOKENSONAR = 'sqp_21e5e0bb9e43f9c5fc9376b5c60fc7e9e5edc3f0'
     VERSION = 'v1'
