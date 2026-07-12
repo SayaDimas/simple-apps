@@ -1,25 +1,35 @@
 pipeline {
-    agent { label "dev01-esa" }
-    tools { nodejs "NodeJS-18.16.0" }
+    agent { label 'dimas-job' }
+    
+    tools {nodejs "NodeJS-18.16.0"}
 
     stages {
-        stage('Build') {
+        stage('Checkout SCM') {
             steps {
-                sh ''' npm install'''
+                git branch: 'main', url: ''
             }
         }
-        stage('Unit Testing') {
+        stage('Build') {
             steps {
-                sh '''npm test'''
+                sh '''
+                npm install'''
+            }
+        }
+        stage('Testing') {
+            steps {
+                sh '''
+                npm test
+                npm run test:coverage'''
             }
         }
         stage('Code Review') {
             steps {
-                sh '''sonar-scanner \
+                sh '''
+                sonar-scanner \
                 -Dsonar.projectKey=simple-apps \
                 -Dsonar.sources=. \
-                -Dsonar.host.url=http://172.23.5.4:9000 \
-                -Dsonar.login=sqp_d54d727c34b1893ad1bcd1167e76b43e6dbb8b8a'''
+                -Dsonar.host.url=http://172.23.11.114:9000 \
+                -Dsonar.login=sqp_21e5e0bb9e43f9c5fc9376b5c60fc7e9e5edc3f0'''
             }
         }
         stage('Deploy compose') {
@@ -30,14 +40,14 @@ pipeline {
                 '''
             }
         }
-        stage('Push Image and Clean Image') {
-            steps {
-                sh '''
-                docker tag simple-apps-apps esanugraha/simple-apps-apps
-                docker push esanugraha/simple-apps-apps
-                docker image prune -a -f
-                '''
-            }
+      stage('tagging and push image to registry image') {
+        steps {
+          sh ''' 
+          docker tag simple-apps-pipeline sayadimas/simple-apps-pipeline
+          docker push sayadimas/simple-apps-pipeline
+          docker images prune -a -f
+          '''
         }
+      }
     }
 }
